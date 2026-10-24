@@ -1,0 +1,56 @@
+public class Solution {
+    public int search(int[] nums, int target) {
+        int left = 0;
+        int right = nums.length - 1;
+
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+
+            // If target is found, return its index
+            if (nums[mid] == target) {
+                return mid;
+            }
+
+            // Check if the left half is sorted
+            if (nums[left] <= nums[mid]) {
+                // Check if the target lies within the sorted left half
+                if (nums[left] <= target && target < nums[mid]) {
+                    right = mid - 1; // Search left
+                } else {
+                    left = mid + 1;  // Search right
+                }
+            } 
+            // Otherwise, the right half must be sorted
+            else {
+                // Check if the target lies within the sorted right half
+                if (nums[mid] < target && target <= nums[right]) {
+                    left = mid + 1;  // Search right
+                } else {
+                    right = mid - 1; // Search left
+                }
+            }
+        }
+
+        // Target not found
+        return -1;
+    }
+
+    public static void main(String[] args) {
+        Solution solution = new Solution();
+
+        // Example 1
+        int[] nums1 = {4, 5, 6, 7, 0, 1, 2};
+        int target1 = 0;
+        System.out.println("Example 1 Result: " + solution.search(nums1, target1)); // Expected: 4
+
+        // Example 2
+        int[] nums2 = {4, 5, 6, 7, 0, 1, 2};
+        int target2 = 3;
+        System.out.println("Example 2 Result: " + solution.search(nums2, target2)); // Expected: -1
+
+        // Example 3
+        int[] nums3 = {1};
+        int target3 = 0;
+        System.out.println("Example 3 Result: " + solution.search(nums3, target3)); // Expected: -1
+    }
+}
